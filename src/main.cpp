@@ -52,6 +52,12 @@ void checkAlarms() {
                     dataTracker.currentHumidity > configManager.alarmSettings.humHigh ||
                     dataTracker.currentHumidity < configManager.alarmSettings.humLow);
 
+
+                    Serial.printf("Temp: %.2f C, Hum: %.2f %%\n", dataTracker.currentTemperature, dataTracker.currentHumidity);
+                    Serial.printf("Min Temp: %.2f C, Max Temp: %.2f C\n", dataTracker.minTemperature, dataTracker.maxTemperature);
+                    Serial.printf("Min Hum: %.2f %%, Max Hum: %.2f %%\n", dataTracker.minHumidity, dataTracker.maxHumidity);
+
+
     if (isAlarm) {
         if ((millis() / 500) % 2 == 0) {
             tone(BUSSER_PIN, 2000); // 2000 Гц

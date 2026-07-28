@@ -3,8 +3,8 @@
 class DataTracker {
     public:
         float currentTemperature = 0.0, currentHumidity = 0.0;
-        float minTemperature = 99.0, maxTemperature = -99.0;
-        float minHumidity = 100.0, maxHumidity = -100.0;
+        float minTemperature = -40.0, maxTemperature = 40.0;
+        float minHumidity = 0.0, maxHumidity = 100.0;
 
         float temperatureHistory[HISTORY_SIZE] = {0};
         uint8_t historyIndex = 0;
