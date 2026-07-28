@@ -6,9 +6,9 @@
 
 
 #define BUSSER_PIN  26
-#define BTN_NEXT_PIN 12
+#define BTN_NEXT_PIN 27
 #define BTN_INC_PIN 14
-#define BTN_DEC_PIN 27
+#define BTN_DEC_PIN 12
 
 #define OLED_SDA_PIN 21
 #define OLED_SDC_PIN 22
@@ -42,13 +42,24 @@ void setup() {
 
 
 void checkAlarms() {
-    if (dataTracker.currentTemperature > configManager.alarmSettings.tempHigh ||
-        dataTracker.currentTemperature < configManager.alarmSettings.tempLow ||
-        dataTracker.currentHumidity > configManager.alarmSettings.humHigh ||
-        dataTracker.currentHumidity < configManager.alarmSettings.humLow) {
-        digitalWrite(BUSSER_PIN, (millis() / 500) % 2);
+    if (!dataTracker.hasData) {
+        noTone(BUSSER_PIN);
+        return;
+    }
+
+   bool isAlarm = (dataTracker.currentTemperature > configManager.alarmSettings.tempHigh ||
+                    dataTracker.currentTemperature < configManager.alarmSettings.tempLow ||
+                    dataTracker.currentHumidity > configManager.alarmSettings.humHigh ||
+                    dataTracker.currentHumidity < configManager.alarmSettings.humLow);
+
+    if (isAlarm) {
+        if ((millis() / 500) % 2 == 0) {
+            tone(BUSSER_PIN, 2000); // 2000 Гц
+        } else {
+            noTone(BUSSER_PIN);
+        }
     } else {
-        digitalWrite(BUSSER_PIN, LOW);
+        noTone(BUSSER_PIN);
     }
 }
 

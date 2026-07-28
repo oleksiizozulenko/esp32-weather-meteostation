@@ -2,6 +2,11 @@
 
 
 #define SCREEN_ADDR 0x3C
+#define OLED_SDA 21
+#define OLED_SCL 22
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+
 
 enum ScreenState {
     SCREEN_MAIN,
@@ -16,9 +21,11 @@ class DisplayUI {
     public:
         ScreenState currentScreen = SCREEN_MAIN;
 
-        DisplayUI() : display(128, 64, &Wire, SCREEN_ADDR) {}
+        DisplayUI() : display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1) {}
 
         void init() {
+            Wire.begin(OLED_SDA, OLED_SCL);
+
             if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDR)) {
                 Serial.println(F("SSD1306 allocation failed"));
                 for(;;);
