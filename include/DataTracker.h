@@ -7,7 +7,7 @@ class DataTracker {
         float minHumidity = 100.0, maxHumidity = -100.0;
 
         float temperatureHistory[HISTORY_SIZE] = {0};
-        uint8_t temperatureHistoryIndex = 0;
+        uint8_t historyIndex = 0;
 
         void update(float temperature, float humidity) {
             if(isnan(temperature) || isnan(humidity)) {
@@ -24,7 +24,7 @@ class DataTracker {
             if (humidity < minHumidity) minHumidity = humidity;
             if (humidity > maxHumidity) maxHumidity = humidity;
 
-            temperatureHistory[temperatureHistoryIndex] = temperature;
-            temperatureHistoryIndex = (temperatureHistoryIndex + 1) % HISTORY_SIZE;
+            temperatureHistory[historyIndex] = temperature;
+            historyIndex = (historyIndex + 1) % HISTORY_SIZE;
         }
 };

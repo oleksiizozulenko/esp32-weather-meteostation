@@ -1,7 +1,5 @@
 #include <Adafruit_SSD1306.h>
-#include <Wire.h>
-#include <DataTracker.h>
-#include <ConfigManager.h>
+
 
 #define SCREEN_ADDR 0x3C
 
@@ -68,8 +66,8 @@ class DisplayUI {
                     display.println("Graph Screen");
                     // Here you would implement graph rendering logic
                     for (int x = 0; x < 127; x++) {
-                    int idx = (tracker.historyHead + x) % HISTORY_SIZE;
-                    int y = map(constrain(tracker.tempHistory[idx], 10, 40), 10, 40, 63, 16);
+                    int idx = (tracker.historyIndex + x) % HISTORY_SIZE;
+                    int y = map(constrain(tracker.temperatureHistory[idx], 10, 40), 10, 40, 63, 16);
                     display.drawPixel(x, y, SSD1306_WHITE);
                 }
                     break;
