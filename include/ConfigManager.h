@@ -11,25 +11,34 @@ struct AlarmSettings {
 
 class ConfigManager {
     private:
+        static constexpr float kDefaultTempHigh = 30.0f;
+        static constexpr float kDefaultTempLow = 5.0f;
+        static constexpr float kDefaultHumHigh = 80.0f;
+        static constexpr float kDefaultHumLow = 20.0f;
+
         Preferences preferences;
+
+        void applyDefaults() {
+            alarmSettings.tempHigh = kDefaultTempHigh;
+            alarmSettings.tempLow = kDefaultTempLow;
+            alarmSettings.humHigh = kDefaultHumHigh;
+            alarmSettings.humLow = kDefaultHumLow;
+        }
 
     public:
         AlarmSettings alarmSettings;
 
         ConfigManager() {
-            alarmSettings.tempHigh = 30.0f;
-            alarmSettings.tempLow = 5.0f;
-            alarmSettings.humHigh = 80.0f;
-            alarmSettings.humLow = 20.0f;
+            applyDefaults();
         }
 
         void init() {
             preferences.begin("weather_config", false);
 
-            alarmSettings.tempHigh = preferences.getFloat("t_high", 30.0f);
-            alarmSettings.tempLow = preferences.getFloat("t_low", 5.0f);
-            alarmSettings.humHigh = preferences.getFloat("h_high", 80.0f);
-            alarmSettings.humLow = preferences.getFloat("h_low", 20.0f);
+            alarmSettings.tempHigh = preferences.getFloat("t_high", kDefaultTempHigh);
+            alarmSettings.tempLow = preferences.getFloat("t_low", kDefaultTempLow);
+            alarmSettings.humHigh = preferences.getFloat("h_high", kDefaultHumHigh);
+            alarmSettings.humLow = preferences.getFloat("h_low", kDefaultHumLow);
 
             preferences.end();
         }
