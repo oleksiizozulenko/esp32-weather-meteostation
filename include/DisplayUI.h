@@ -71,12 +71,19 @@ class DisplayUI {
                 case SCREEN_GRAPH:
                     display.setTextSize(1);
                     display.println("Graph Screen");
-                    // Here you would implement graph rendering logic
-                    for (int x = 0; x < 127; x++) {
-                    int idx = (tracker.historyIndex + x) % HISTORY_SIZE;
-                    int y = map(constrain(tracker.temperatureHistory[idx], 10, 40), 10, 40, 63, 16);
-                    display.drawPixel(x, y, SSD1306_WHITE);
-                }
+
+                    float history[HISTORY_SIZE];
+                    uint8_t drawCount = tracker.getTemperatureHistory(history, SCREEN_WIDTH);
+                    if (drawCount == 0) {
+                        display.setCursor(0, 16);
+                        display.println("No data yet");
+                        break;
+                    }
+
+                    for (uint8_t x = 0; x < drawCount; x++) {
+                        int y = map(constrain(history[x], 10, 40), 10, 40, 63, 16);
+                        display.drawPixel(x, y, SSD1306_WHITE);
+                    }
                     break;
             }
 
